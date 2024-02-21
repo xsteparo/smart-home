@@ -1,0 +1,195 @@
+
+package cz.cvut.fel.omo;
+
+import cz.cvut.fel.omo.entity.alive.Adult;
+import cz.cvut.fel.omo.entity.alive.Animal;
+import cz.cvut.fel.omo.entity.alive.Child;
+import cz.cvut.fel.omo.entity.alive.FamilyMemberType;
+import cz.cvut.fel.omo.entity.device.*;
+import cz.cvut.fel.omo.entity.device.sensors.*;
+import cz.cvut.fel.omo.house.House;
+import cz.cvut.fel.omo.house.SmartPanel;
+import cz.cvut.fel.omo.entity.device.decorator.FlammableDevice;
+import cz.cvut.fel.omo.entity.device.decorator.FloodingDevice;
+import cz.cvut.fel.omo.entity.device.decorator.MessCausingDevice;
+import cz.cvut.fel.omo.house.room.Room;
+import cz.cvut.fel.omo.house.room.Window;
+import cz.cvut.fel.omo.util.logger.EventHistory;
+import cz.cvut.fel.omo.timesimulator.TimeManager;
+
+import java.util.List;
+import java.util.Set;
+
+public class Main {
+
+
+    public static void main(String[] args) {
+
+
+//        ``````````````````ROOMS IN HOUSE INIT``````````````````
+        Room hall = new Room("hall");
+        Room kitchen = new Room("kitchen");
+        Room childBedroom = new Room("childBedroom");
+        Room office = new Room("office room");
+        Room familyBedroom = new Room("familyBedroom");
+        Room wc = new Room("Toilet room");
+        Room backyard = new Room("Backyard");
+        Room outsideHouse = new Room("Outside House");
+
+        Curtain curtain = new Curtain(hall);
+        Curtain curtain1 = new Curtain(kitchen);
+
+        Heater hallHeater = new Heater(hall);
+        Heater kitchenHeater = new Heater(kitchen);
+
+        Window window = new Window().setCurtain(curtain);
+        Window window1 = new Window().setCurtain(curtain1);
+
+        hall.setWindows(List.of(window));
+        kitchen.setWindows(List.of(window1));
+        hall.setHeater(hallHeater);
+        kitchen.setHeater(kitchenHeater);
+
+        //        ````````````````````ALIVE INIT````````````````````
+        Adult father = new Adult("Father", familyBedroom);
+        Adult mother = new Adult("Mother" ,familyBedroom);
+
+        Child son1 = new Child("Vasya", familyBedroom);
+        Child son2 = new Child("Kolya", familyBedroom);
+        Child son3 = new Child("Vpiska", familyBedroom);
+
+        Animal dog = new Animal("Bobik",  hall);
+
+
+        SmartPanel smartPanel = new SmartPanel(hall);
+
+        House.getInstance().setSmartPanel(smartPanel);
+
+
+        // ``````````````````DEVICE INIT``````````````````
+
+        Sensor smokeSensor = new SmokeSensor();
+        Sensor floodSensor = new FloodSensor();
+        Sensor lightSensor = new LightSensor();
+        Sensor temperatureSensor = new TemperatureSensor();
+
+
+        Device automaticFeeder = new AutomaticFeeder(kitchen);
+
+        Device toilet = new Toilet(wc);
+
+        Device dishwasher = new Dishwasher(kitchen);
+
+        Device fridge = new Fridge(kitchen);
+
+        Device microwave = new FlammableDevice(new Microwave(kitchen));
+
+        Device washingMachine = new FlammableDevice(new FloodingDevice(new WashingMachine(wc)));
+
+        Device pc = new FlammableDevice(new MessCausingDevice(new PC(office)));
+
+
+
+
+        Car car = new Car(outsideHouse);
+        ElectricBicycle bike = new ElectricBicycle(outsideHouse);
+        House.getInstance().setCar(car);
+
+        kitchen.setDevices(Set.of(dishwasher, fridge, microwave, automaticFeeder));
+
+        office.setDevices(Set.of(pc));
+
+        wc.setDevices(Set.of(washingMachine, toilet));
+
+        outsideHouse.setDevices(Set.of(car, bike));
+
+
+        House.getInstance().setRooms(List.of(hall, kitchen, childBedroom, familyBedroom, office, wc, backyard, outsideHouse));
+        House.getInstance().setBackyard(backyard);
+
+
+        House.getInstance().assignBedroom(father, familyBedroom);
+        House.getInstance().assignBedroom(mother, familyBedroom);
+        House.getInstance().assignBedroom(son1, childBedroom);
+        House.getInstance().assignBedroom(son2, childBedroom);
+        House.getInstance().assignBedroom(son3, childBedroom);
+        House.getInstance().assignBedroom(dog, hall);
+        House.getInstance().addMicrowave(microwave);
+
+        // ```````````````````TIME MANAGER OBSERVER```````````````````
+        TimeManager timeManager = TimeManager.getInstance();
+
+        timeManager.subscribe(father);
+        timeManager.subscribe(mother);
+
+        timeManager.subscribe(son1);
+        timeManager.subscribe(son2);
+        timeManager.subscribe(son3);
+
+        timeManager.subscribe(dog);
+        timeManager.subscribe(automaticFeeder);
+
+        timeManager.subscribe(toilet);
+        timeManager.subscribe(washingMachine);
+
+        timeManager.subscribe(microwave);
+        timeManager.subscribe(fridge);
+
+        timeManager.subscribe(dishwasher);
+
+        timeManager.subscribe(pc);
+
+        timeManager.subscribe(smokeSensor);
+        timeManager.subscribe(lightSensor);
+
+        timeManager.subscribe(floodSensor);
+        timeManager.subscribe(car);
+        timeManager.subscribe(bike);
+        timeManager.subscribe(temperatureSensor);
+
+
+        //-----------------GENERATOR------------
+
+
+
+
+        // `````````````````SMARTPANEL OBSERVER`````````````````
+        smartPanel.addSubscriber(father);
+        smartPanel.addSubscriber(mother);
+
+        smartPanel.addSubscriber(son1);
+        smartPanel.addSubscriber(son2);
+        smartPanel.addSubscriber(son3);
+
+        smartPanel.addSubscriber(dog);
+
+        smartPanel.addSubscriber(microwave);
+        smartPanel.addSubscriber(fridge);
+
+        smartPanel.addSubscriber(dishwasher);
+
+        smartPanel.addSubscriber(pc);
+
+
+        smartPanel.addSubscriber(toilet);
+
+        smartPanel.addSubscriber(curtain);
+        smartPanel.addSubscriber(curtain1);
+
+        smartPanel.addSubscriber(hallHeater);
+        smartPanel.addSubscriber(kitchenHeater);
+
+        smartPanel.addSubscriber(father.getMobilePhone());
+        smartPanel.addSubscriber(mother.getMobilePhone());
+        smartPanel.addSubscriber(son1.getMobilePhone());
+        smartPanel.addSubscriber(son2.getMobilePhone());
+        smartPanel.addSubscriber(son3.getMobilePhone());
+
+
+        timeManager.run();
+
+        EventHistory.getInstance().printReport();
+
+
+    }
+}

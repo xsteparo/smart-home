@@ -1,0 +1,44 @@
+{
+  "house": {
+    "rooms": [
+      {"name": "hall"},
+      {"name": "kitchen"},
+      {"name": "child bedroom"},
+      {"name": "family bedroom"},
+      {"name": "office room"},
+      {"name": "wc"}
+    ]
+  },
+  "windows": [
+    {"room": "hall"},
+    {"room": "family bedroom"}
+  ],
+  "familyMembers": {
+    "adults": [
+      {"name": "Father", "sleepingRoom": "family bedroom"},
+      {"name": "Mother", "sleepingRoom": "family bedroom"}
+    ],
+    "children": [
+      {"name": "Son1", "sleepingRoom": "child bedroom"},
+      {"name": "Son2", "sleepingRoom": "child bedroom"},
+      {"name": "Son3", "sleepingRoom": "child bedroom"}
+    ],
+    "dogs": [
+      {"name": "Dog1", "room": "hall"}
+    ]
+  },
+  "devices" : [
+    {"type":"Microwave" , "room": "kitchen"},
+    {"type":"AutomaticFeeder" , "room": "kitchen"},
+    {"type":"Dishwasher" , "room": "kitchen"},
+    {"type":"Fridge" , "room": "kitchen"},
+    {"type":"Toilet" , "room": "wc"},
+    {"type":"WashingMachine", "room": "toilet"},
+    {"type":"PC" , "room": "office room"},
+    {"type":"ElectricBicycle"},
+    {"type": "Heater", "room":"hall"},
+    {"type": "Heater", "room": "kitchen"}
+  ]
+
+
+}

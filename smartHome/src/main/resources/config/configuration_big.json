@@ -1,0 +1,67 @@
+{
+  "house": {
+    "rooms": [
+      {"name": "hall"},
+      {"name": "kitchen"},
+      {"name": "child bedroom"},
+      {"name": "family bedroom"},
+      {"name": "office room"},
+      {"name": "wc"},
+      {"name": "living room"},
+      {"name": "bathroom"},
+      {"name": "guest room"}
+    ]
+  },
+  "windows": [
+    {"room": "hall"},
+    {"room": "family bedroom"},
+    {"room": "living room"},
+    {"room": "guest room"}
+  ],
+  "familyMembers": {
+    "adults": [
+      {"name": "Father", "sleepingRoom": "family bedroom"},
+      {"name": "Mother", "sleepingRoom": "family bedroom"},
+      {"name": "Uncle", "sleepingRoom": "guest room"},
+      {"name": "Aunt", "sleepingRoom": "guest room"}
+    ],
+    "children": [
+      {"name": "Son", "sleepingRoom": "child bedroom"},
+      {"name": "Daughter", "sleepingRoom": "child bedroom"},
+      {"name": "Nephew", "sleepingRoom": "guest room"},
+      {"name": "Niece", "sleepingRoom": "guest room"}
+    ],
+    "dogs": [
+      {"name": "Dog1", "room": "hall"},
+      {"name": "Puppy1", "room": "kitchen"}
+    ]
+  },
+  "devices" : [
+
+    {"type":"Microwave" , "room": "kitchen"},
+    {"type":"Microwave" , "room": "office room"},
+    {"type":"AutomaticFeeder" , "room": "kitchen"},
+    {"type":"Dishwasher" , "room": "kitchen"},
+    {"type":"Dishwasher" , "room": "bathroom"},
+    {"type":"Fridge" , "room": "kitchen"},
+    {"type":"Fridge" , "room": "living room"},
+    {"type":"Toilet" , "room": "wc"},
+    {"type":"WashingMachine", "room": "bathroom"},
+    {"type":"WashingMachine", "room": "wc"},
+    {"type":"PC" , "room": "office room"},
+    {"type":"PC" , "room": "living room"},
+    {"type":"ElectricBicycle"},
+    {"type": "Heater", "room": "hall"},
+    {"type": "Heater", "room": "living room"},
+    {"type": "Heater", "room": "bathroom"},
+    {"type": "SmartLitterBox", "room": "hall"},
+    {"type":"TV" , "room": "living room"},
+    {"type":"TV" , "room": "guest room"},
+    {"type":"GamingConsole" , "room": "child bedroom"},
+    {"type":"GamingConsole" , "room": "guest room"},
+    {"type":"Toaster" , "room": "kitchen"},
+    {"type":"Toaster" , "room": "living room"},
+    {"type":"CoffeeMachine" , "room": "kitchen"},
+    {"type":"CoffeeMachine" , "room": "office room"}
+  ]
+}
